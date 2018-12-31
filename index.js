@@ -2,7 +2,7 @@ import anime from 'animejs';
 
 const AKANE = encodeURIComponent('茜ちゃんかわいい！！！！！');
 const TOKEN = encodeURIComponent(btoa(Math.random)).slice(24);
-const API_URL = 'https://script.google.com/macros/s/AKfycbws6Yt3rB_gUau3RktvwE0Wl55BFjFBFSapmLGsZX4LSMvFFoE/exec';
+const API_URL = 'https://script.google.com/macros/s/AKfycbyIPZAgTuRN0_Plvky4Cy4_wua6GeWh2UNritshBEFdjh6ihsvT/exec';
 
 window.AudioContext = window.AudioContext || window.webkitAudioContext;
 const audioContext = new AudioContext();
@@ -15,7 +15,6 @@ anime.easings['gravity'] = (t) => {
 
 async function fetchSounds() {
     const sounds = [
-        'sound/maekawa.mp3',
         'sound/nyaaaa.mp3',
         'sound/nyasc.mp3',
         'sound/nyaweak.mp3',
@@ -33,140 +32,114 @@ function random(n) {
     return Math.floor(Math.random()*n)
 }
 
-class Sender {
-    constructor() {
-        this.waitFrom = Number.MAX_SAFE_INTEGER;
-        this.count = 0;
-        setInterval(() => {
-            if (Date.now() - this.waitFrom > 1000) {
-                this.send();
-            }
-        }, 100);
-    }
-
-    countUp() {
-        this.count++;
-        this.waitFrom = Date.now();
-    }
-
-    send() {
-        const count = this.count;
-        this.count = 0;
-        this.waitFrom = Number.MAX_SAFE_INTEGER;
-        if (!count) return;
-        fetch(API_URL, {
-            method: 'POST',
-            headers: {
-                'Accept': 'application/json',
-                'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
-            },
-            body: `token=${TOKEN}&akane=${AKANE}&count=${count}`,
-        })
-        // .then((res) => res.json())
-        // .then((res) => {
-        // })
-        .catch(console.log);
-    }
+function scoreFunction(time) {
+    const x = 3-time/1000*2/7;
+    return 100000/(1+Math.exp(-x));
 }
 
+function sendScore(score) {
+    fetch(API_URL, {
+        method: 'POST',
+        headers: {
+            'Accept': 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8',
+        },
+        body: `token=${TOKEN}&akane=${AKANE}&score=${score}`,
+    })
+    .catch(console.log);
+}
+
+
 document.addEventListener('DOMContentLoaded', async () => {
-    const button = document.getElementById('button');
-    const push = button.getElementsByClassName('push')[0];
-    const pops = Array.from(document.getElementById('akane-pops').children);
+    const giant = document.getElementById('giant-akane');
     const body = document.getElementsByTagName('body')[0];
-    const globalCounter = document.getElementById('global-counter');
-    const localCounter = document.getElementById('local-counter');
+    const globalScore = document.getElementById('global-score');
+    const localScore = document.getElementById('local-score');
+    const counter = document.getElementById('counter');
     const twitterButton = document.getElementById('twitter-button');
-    const sender = new Sender();
+    const GONE_DURATION = 500;
+    const BONNO = 108;
+
+    const swingAnime = anime({
+        targets: giant,
+        rotate: '-10deg',
+        direction: 'alternate',
+        duration: 100,
+        easing: 'easeOutCubic',
+    });
+    swingAnime.pause();
 
     let count = 0;
+    let startTime = null;
 
     const sounds = await fetchSounds();
 
-    const siteUrl = encodeURIComponent('https://nkudryavka.github.io/akanechan-nyash-button/');
-    const hashtags = `Akanechan_Nyash_Button,${encodeURIComponent('茜ちゃん絶対に主人公にするからね')},${encodeURIComponent('茜ちゃん絶対に島流しにするからね')}`;
-    function getTweetUrl() {
-        const content = encodeURIComponent(`Akanechan Nyash Buttonで茜ちゃんを${count}回注文したよ！`);
+    const siteUrl = encodeURIComponent('https://nkudryavka.github.io/akanechan-gone-challenge/');
+    const hashtags = `Akanechan_Gone_Challenge,${encodeURIComponent('茜ちゃん絶対に主人公にするからね')},${encodeURIComponent('茜ちゃん絶対に島流しにするからね')}`;
+    function getTweetUrl(score) {
+        const content = encodeURIComponent(`Akanechan Gone Challengeで煩悩を${score.toLocaleString()}km吹っ飛ばした！\n1/2 22:22 #新春初ナデナデ （一斉投票）も忘れずに！`);
         return `https://twitter.com/intent/tweet?text=${content}&url=${siteUrl}&hashtags=${hashtags}`;
     }
 
-    let refreshCount = null;
-    function refreshGlobalCount() {
-        if (count === refreshCount) return;
-        fetch(`${API_URL}?akane=${AKANE}`)
-        .then((res) => res.json())
-        .then((res) => {
-            globalCounter.textContent = res.count.toLocaleString();
-            refreshCount = count;
-        });
-    }
-    refreshGlobalCount();
-    setInterval(refreshGlobalCount, 10*1000);
+    // Get global score
+    fetch(`${API_URL}?akane=${AKANE}`)
+    .then((res) => res.json())
+    .then((res) => {
+        globalScore.textContent = res.score.toLocaleString();
+    });
 
     function nya() {
         audioContext.resume();
-        const pop = (Math.random() < 0.7 ? pops[0] : pops[random(pops.length)]).cloneNode();
-        countUp();
         const source = audioContext.createBufferSource();
-        source.buffer = sounds[Math.random() < 0.99 ? random(sounds.length-1)+1 : 0];
+        source.buffer = sounds[random(sounds.length)];
         source.connect(audioContext.destination);
         source.start(0);
-        
-        pop.style.position = 'absolute';
-        pop.style.maxWidth = '20%';
-        pop.style.maxHeight = '20%';
-        pop.style.top = '30%';
-        pop.style.left = '40%';
-        pop.style.zIndex = -1;
-        button.appendChild(pop);
-        const popAnime = anime({
-            targets: pop,
-            translateX: {
-                value: (Math.random()-0.5) * body.clientWidth,
-                easing: 'linear',
-            },
-            translateY: {
-                value: body.clientHeight * (Math.random() * 0.5 + 0.5),
-                easing: 'gravity'
-            },
-            duration: 1500,
-        });
-        popAnime.complete = () => {
-            pop.remove();
+        giant.style.transformOrigin = 'center';
+        count++;
+        if (count < BONNO) {
+            counter.textContent = count;
+            if (count === 1) {
+                startTime = Date.now();
+            }
+            swingAnime.restart();
+        } else if (count === BONNO) {
+            const score = scoreFunction(Date.now() - startTime);
+            counter.textContent = count;
+            twitterButton.href = getTweetUrl(score);
+            anime({
+                targets: giant,
+                translateX: {
+                    value: body.clientWidth,
+                    easing: 'linear',
+                },
+                translateY: {
+                    value: -body.clientHeight/2,
+                    easing: 'easeOutQuad',
+                },
+                rotate: {
+                    value: '10turn',
+                    easing: 'linear',
+                },
+                duration: GONE_DURATION,
+            });
+            const tempObj = {sc: 0};
+            anime({
+                targets: tempObj,
+                sc: score,
+                easing: 'easeOutCubic',
+                duration: GONE_DURATION,
+                update: () => {localScore.textContent = tempObj.sc.toLocaleString()},
+            });
+            sendScore(score);
         }
     }
-
-    function countUp() {
-        count++;
-        sender.countUp();
-        localCounter.textContent = count.toLocaleString();
-        twitterButton.href = getTweetUrl();
-    }
-
-    const buttonDarken = () => {
-        push.style.fill = '#ccc';
-    }
-    const buttonLighten = () => {
-        push.style.fill = '';
-    }
     
-    push.addEventListener('touchstart', (e) => {
+    giant.addEventListener('touchstart', (e) => {
         e.preventDefault();
-        buttonDarken();
-    })
-    push.addEventListener('touchend', (e) => {
-        e.preventDefault();
-        buttonLighten();
         nya();
     });
-    push.addEventListener('mousedown', buttonDarken);
-    push.addEventListener('mouseleave', buttonLighten);
-    push.addEventListener('mouseup', () => {
-        buttonLighten();
+    giant.addEventListener('mousedown', (e) => {
+        e.preventDefault();
         nya();
-    });
-
-    window.addEventListener('beforeunload', (e) => {
-        sender.send();
     });
 });

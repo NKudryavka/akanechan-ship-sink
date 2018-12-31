@@ -2,7 +2,7 @@
 <html lang="ja">
   <head>
     <meta charset="utf-8">
-    <title>Akanechan Nyash Button</title>
+    <title>Akanechan Gone Challenge</title>
     <!-- Global site tag (gtag.js) - Google Analytics -->
     <script async src="https://www.googletagmanager.com/gtag/js?id=UA-60227528-3"></script>
     <script>
@@ -18,52 +18,37 @@
     <link href="https://fonts.googleapis.com/css?family=Sniglet:800" rel="stylesheet">
     <meta name="twitter:card" content="summary_large_image">
     <meta name="og:type" content="website">
-    <meta name="og:title" content="Akanechan Nyash Button">
-    <meta name="og:description" content="寂しいプロちゃんのもとに茜ちゃんをお届け？ボタンを連打して癒されるのだ！">
+    <meta name="og:title" content="Akanechan Gone Challenge">
+    <meta name="og:description" content="茜ちゃんと一緒に煩悩を島流しにするのだ！">
     <meta name="og:image" content="https://nkudryavka.github.io/akanechan-nyash-button/screenshot.png">
     <link rel="icon" type="image/png" sizes="152x152" href="img/favicon.png">
   </head>
   <body>
     <div id="container">
-      <h1 class="sniglet"><span id="cat-ear">Akanechan</span> Nyash Button</h1>
+      <h1 class="sniglet"><span id="cat-ear">Akanechan</span> Gone&nbsp;Challenge</h1>
       <div>
-        <div class="global-counter">
-          世界中のプロちゃん：<span id="global-counter" class="counter">---</span>茜ちゃん
+        <div>
+          世界記録：<span id="global-score">---</span> km
         </div>
-        <span id="local-counter" class="counter">0</span>茜ちゃん
-        <a id="twitter-button" target="_blank" href="https://twitter.com/intent/tweet?text=Akanechan%20Nyash%20Button%E3%81%A7%E8%8C%9C%E3%81%A1%E3%82%83%E3%82%93%E3%81%AB%E7%99%92%E3%81%95%E3%82%8C%E3%82%88%E3%81%86%EF%BC%81&url=https%3A%2F%2Fnkudryavka.github.io%2Fakanechan-nyash-button%2F&hashtags=Akanechan_Nyash_Button,%E8%8C%9C%E3%81%A1%E3%82%83%E3%82%93%E7%B5%B6%E5%AF%BE%E3%81%AB%E4%B8%BB%E4%BA%BA%E5%85%AC%E3%81%AB%E3%81%99%E3%82%8B%E3%81%8B%E3%82%89%E3%81%AD,%E8%8C%9C%E3%81%A1%E3%82%83%E3%82%93%E7%B5%B6%E5%AF%BE%E3%81%AB%E5%B3%B6%E6%B5%81%E3%81%97%E3%81%AB%E3%81%99%E3%82%8B%E3%81%8B%E3%82%89%E3%81%AD"><img src="img/twitter.svg"></a>
+        <p id="explain">ジャイアント茜ちゃん人形を素早く連打！<br>煩悩を吹っ飛ばして島流しにしよう！</p>
+        <p id="note">注意：音が出ます</p>
       </div>
-      <div id="note">
-        茜ちゃん以外の声も聞こえるかも！？<br>（音が出るよ！）
+      <div id="temple">
+        <img src="img/temple-bg.png" id="temple-bg">
+        <img src="img/small-giant.png" id="giant-akane">
+        <img src="img/pillar.png" id="temple-pillar">
       </div>
-      <div id="button">
-          <div id="akane-pops">
-            <img src="img/akane-normal.png">
-            <img src="img/akane-planet.png">
-            <img src="img/akane-planet2.png">
-            <img src="img/akane-ship.png">
-            <img src="img/akane-space.png">
-            <img src="img/akane-volcano.png">
-            <img src="img/akane-volcano2.png">
-            <img src="img/akane-volcano3.png">
-          </div>
-        <svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" width="2820" height="1600" viewBox="0 0 282 160">
-          <defs>
-            <pattern id="akane-chan" patternUnits="userSpaceOnUse" width="270" height="110">
-              <image xlink:href="img/akane-chan.png" x="0" y="0" width="270" height="110" />
-            </pattern>
-          </defs>
-          <rect x="5" y="55" width="262" height="50" class="base"></rect> 
-          <rect x="5" y="55" width="262" height="100" rx="50" ry="50" class="base"></rect>
-          <rect x="4" y="5.5" width="264" height="102" rx="52" ry="52" class="border"></rect>
-          <rect x="5" y="5" width="262" height="100" rx="50" ry="50" fill="url(#akane-chan)" class="face"></rect>
-          <rect x="7" y="7" width="258" height="96" rx="48" ry="48" class="border"></rect>
-          <circle cx="55" cy="55" r="44" class="push"></circle>
-        </svg>
+      <span id="counter">0</span> / 108
+      <div>
+        記録：<span id="local-score">---</span> km
+        <a id="twitter-button" target="_blank" href="https://twitter.com/intent/tweet?text=Akanechan%20Gone%20Challenge%E3%81%A7%E7%85%A9%E6%82%A9%E3%82%92%E5%90%B9%E3%81%8D%E9%A3%9B%E3%81%B0%E3%81%9D%E3%81%86%EF%BC%81%20https%3A%2F%2Fnkudryavka.github.io%2Fakanechan-gone-challenge%2F%0A1%2F2%2022%3A22%20%23%E6%96%B0%E6%98%A5%E5%88%9D%E3%83%8A%E3%83%87%E3%83%8A%E3%83%87%20%EF%BC%88%E4%B8%80%E6%96%89%E6%8A%95%E7%A5%A8%EF%BC%89%E3%82%82%E5%BF%98%E3%82%8C%E3%81%9A%E3%81%AB%EF%BC%81&hashtags=Akanechan_Gone_Challenge,%E8%8C%9C%E3%81%A1%E3%82%83%E3%82%93%E7%B5%B6%E5%AF%BE%E3%81%AB%E4%B8%BB%E4%BA%BA%E5%85%AC%E3%81%AB%E3%81%99%E3%82%8B%E3%81%8B%E3%82%89%E3%81%AD,%E8%8C%9C%E3%81%A1%E3%82%83%E3%82%93%E7%B5%B6%E5%AF%BE%E3%81%AB%E5%B3%B6%E6%B5%81%E3%81%97%E3%81%AB%E3%81%99%E3%82%8B%E3%81%8B%E3%82%89%E3%81%AD"><img src="img/twitter.svg"></a>
       </div>
+
       <div class="voting">
-        <p>茜ちゃんのかわいさに癒されたかにゃ？<br>
-        癒されたら<a href="theaterdays://">ナデナデ(投票)</a>するのだ！</p>
+        <p>
+          煩悩は流せたかにゃ？<br>
+          流せたら<a href="theaterdays://">ナデナデ(投票)</a>するのだ！<br>
+        </p>
       </div>
     </div>
   </body>

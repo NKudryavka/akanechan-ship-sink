@@ -8,14 +8,13 @@ body
   background: $akane-color
   color: white
   width: 100vw
-  height: 100vh
   margin: 0
   padding: 0
   border-width: 0
   display: flex
   justify-content: center
   align-items: center
-  overflow: hidden
+  overflow-x: hidden
   font-family: 'makinas'
   font-size: 5vh
 
@@ -60,50 +59,42 @@ body
   
   #note
     font-size: 50%
+  #explain
+    font-size: 60%
 
-  #button
-    padding: 0
-    margin: 0
+  #temple
     position: relative
-
-    #akane-pops
+    #temple-pillar
       position: absolute
-      width: 100%
-      height: 100%
-      left: 0
-      top: 0
-      img
-        position: absolute
-        max-width: 20%
-        max-height: 20%
-        top: 30%
-        left: 40%
-
-    svg
-      filter: drop-shadow(0 15px 5px darken($akane-color, 20%))
-      max-width: 100vw
-      max-height: 50vh
-      width: auto
-      height: auto
-
-    $edge-color: #ccc
-    .face, .base
-      stroke: $edge-color
-      stroke-width: 4
-    .base
-      fill: $edge-color
-    .border
-      stroke: grey
-      stroke-width: 1
-      fill: transparent
-    .push
-      fill: #eee
-      stroke: grey
-      stroke-width: 1
+    #giant-akane
+      position: absolute
+      transform-origin: 40% 0
+      cursor: pointer
+    @media (orientation: portrait) // 縦長
+      #temple-bg
+        width: 70vw
+      #temple-pillar
+        width: 3.2vw
+        left: 60.5vw
+        top: 37.5vw
+      #giant-akane
+        width: 20vw
+        left: 42.6vw
+        top: 37.6vw
+    @media (orientation: landscape) // 横長
+      #temple-bg
+        height: 50vh
+      #temple-pillar
+        height: 13.5vh
+        left: 60.5vh
+        top: 27.1vh
+      #giant-akane
+        height: 12vh
+        left: 47.5vh
+        top: 27.5vh
         
   .voting
     margin-top: -3vh
     font-size: 3vh
     a 
       color: #4cffed
-    
