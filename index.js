@@ -77,7 +77,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     const siteUrl = encodeURIComponent('https://nkudryavka.github.io/akanechan-gone-challenge/');
     const hashtags = `Akanechan_Gone_Challenge,${encodeURIComponent('茜ちゃん絶対に主人公にするからね')},${encodeURIComponent('茜ちゃん絶対に島流しにするからね')}`;
     function getTweetUrl(score) {
-        const content = encodeURIComponent(`Akanechan Gone Challengeで煩悩を${score.toLocaleString()}km吹っ飛ばした！\n1/2 22:22 #新春初ナデナデ （一斉投票）も忘れずに！`);
+        const content = encodeURIComponent(`Akanechan Gone Challengeで煩悩を${score.toLocaleString()}km吹っ飛ばした！\n1/12 22:22 #茜ちゃん絶対に主人公にするからね （一斉投票）も忘れずに！`);
         return `https://twitter.com/intent/tweet?text=${content}&url=${siteUrl}&hashtags=${hashtags}`;
     }
 
